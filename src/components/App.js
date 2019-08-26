@@ -9,22 +9,22 @@ class App extends Component {
     players: [
       {
         name: "Guil",
-        score: 100,
+        score: 0,
         id: 1
       },
       {
         name: "Treasure",
-        score: 100,
+        score: 0,
         id: 2
       },
       {
         name: "Ashley",
-        score: 100,
+        score: 0,
         id: 3
       },
       {
         name: "James",
-        score: 100,
+        score: 0,
         id: 4
       }
   ]
@@ -48,17 +48,27 @@ handleAddPlayer=(name)=>{
       players: [
         ...prevState.players,
         {name,
-        score: 100,
+        score: 0,
       id: this.prevPlayerId += 1}
       ]
     };
   });
 }
-  
+// icon crown: 
+getHighScore =()=>{
+  const scores = this.state.players.map(p => p.score);
+  const highScore = Math.max(...scores);
+  if(highScore){
+    return highScore;
+  }
+  return null;
+}
+
 //players in counter
 prevPlayerId = 4;
 
   render(){
+    const highScore = this.getHighScore();
     return (
       <div className ="scoreboard">
        <Header 
@@ -75,6 +85,7 @@ prevPlayerId = 4;
           index = {index}
           changeScore={this.handleScoreChange}
           removePlayer={this.handleRemovePlayer}
+          isHighScore = {highScore === pl.score}
         />
        )}
        <AddPlayerForm addPlayer={this.handleAddPlayer} />
